@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{commons :: head}"></div>
+    <title>Управление данными</title>
+</head>
+<body>
+<div th:replace="~{commons :: nav}"></div>
+
+
+<section class="typeInventory-list">
+    <div class="container my-2">
+        <div class="card">
+            <div class="row">
+                <div class="card-body col">
+                    <h2 class="text-center">Типы спорт инвентаря </h2>
+                    <div th:switch="${typesInventory}" class="container my-5">
+                        <div class="col-md-12">
+                            <h2 th:case="null">Записей не найдено </h2>
+                            <div th:case="*" class="overScroll">
+                                <table class="table table-striped table-responsive-md">
+                                    <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="entity : ${typesInventory}">
+                                        <td th:text="${entity.name}"></td>
+                                        <td class="btnInTable widthLastCol">
+                                            <a th:href="@{/typeInventory/edit/{id}(id=${entity.id})}"
+                                               class="btn btn-primary ">
+                                                <i class="fas fa-edit">Редактировать</i>
+                                            </a>
+                                        </td>
+                                        <td class="btnInTable widthLastCol">
+                                            <a th:href="@{/typeInventory/delete/{id}(id=${entity.id})}"
+                                               class="btn btn-primary">
+                                                <i class="fas fa-trash">Удалить</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="d-flex justify-content-end">
+                                <a href="/typeInventory/edit" class="btn btn-primary mx-2">
+                                    <i class="fas fa-plus">Добавить запись </i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="inventory">
+    <div class="container my-2">
+        <div class="card">
+            <div class="row">
+                <div class="card-body col">
+                    <h2 class="text-center">Спорт инвентарь</h2>
+                    <div th:switch="${inventories}" class="container my-5">
+                        <div class="col-md-12">
+                            <h2 th:case="null">Записей не найдено </h2>
+                            <div th:case="*" class="overScroll">
+                                <table class="table table-striped table-responsive-md">
+                                    <thead>
+                                    <tr>
+                                        <th>Тип</th>
+                                        <th>Название</th>
+                                        <th>Цена</th>
+                                        <th>Изображение</th>
+                                        <th>Описание</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="entity : ${inventories}">
+                                        <td th:text="${entity.typeInventory.name}"></td>
+                                        <td th:text="${entity.name}"></td>
+                                        <td th:text="${entity.price}"></td>
+                                        <td>
+                                            <img alt="Изображение" th:src="${entity.image}" height="150">
+                                        </td>
+                                        <td th:text="${entity.description}" class="d-flex" width="400px"></td>
+                                        <td class="btnInTable widthLastCol">
+                                            <a th:href="@{/inventory/edit/{id}(id=${entity.id})}"
+                                               class="btn btn-primary ">
+                                                <i class="fas fa-edit">Редактировать</i>
+                                            </a>
+                                        </td>
+                                        <td class="btnInTable widthLastCol">
+                                            <a th:href="@{/inventory/delete/{id}(id=${entity.id})}"
+                                               class="btn btn-primary">
+                                                <i class="fas fa-trash">Удалить</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="d-flex justify-content-end">
+                                <a href="/inventory/edit" class="btn btn-primary mx-2">
+                                    <i class="fas fa-plus">Добавить запись </i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="users">
+    <div class="container my-2">
+        <div class="card">
+            <div class="row">
+                <div class="card-body col">
+                    <h2 class="text-center"> Пользователи </h2>
+                    <div th:switch="${users}" class="container my-5">
+                        <div class="col-md-12">
+                            <h2 th:case="null"> Записей не найдено </h2>
+                            <div th:case="*" class="overScroll">
+                                <table class="table table-striped table-responsive-md">
+                                    <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Фамилия</th>
+                                        <th>Электронный адрес</th>
+                                        <th>Логин</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="entity : ${users}">
+                                        <td th:text="${entity.firstname}"></td>
+                                        <td th:text="${entity.lastname}"></td>
+                                        <td th:text="${entity.email}"></td>
+                                        <td th:text="${entity.username}"></td>
+                                        <td class="btnInTable widthLastCol">
+                                            <a th:href="@{/user/edit/{id}(id=${entity.id})}" class="btn btn-primary ">
+                                                <i class="fas fa-edit">Редактировать</i>
+                                            </a>
+                                        </td>
+                                        <td class="btnInTable widthLastCol">
+                                            <a th:href="@{/user/delete/{id}(id=${entity.id})}" class="btn btn-primary">
+                                                <i class="fas fa-trash">Удалить</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="d-flex justify-content-end">
+                                <a href="/user/edit" class="btn btn-primary mx-2">
+                                    <i class="fas fa-plus"> Добавить запись </i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+
+</html>

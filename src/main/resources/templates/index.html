@@ -1,0 +1,103 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Главная</title>
+    <div th:replace="~{commons :: head}"></div>
+    <link rel="stylesheet" href="/css/flickity.css">
+    <script src="/js/flickity.pkgd.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="~{commons :: nav}"></div>
+<h3 class="text-center" th:if="${success}">Вы успешно зарегистрировались! Можете войти в систему.</h3>
+<h3 class="text-center" th:if="${(param.error != null) and (param.error[0] == 'true')}">Ошибка входа в систему!
+    Проверьте вводимые данные.</h3>
+<section id="main-page">
+    <div class="container">
+        <div class="row">
+            <div class="main-info col-md-8">
+                <h1 class="main-title font-italic">Интернет-мазагин по продаже спорт инвентаря</h1>
+                <h3 class="main-title-info font-italic">заказывайте то, что нравится</h3>
+                <div class="main-info d-flex">
+                    <img src="/img/main-rest.jpg" class="main-img">
+                    <div class="main-description col-md-8">
+                        <p class="main-description-first">Мы рады приветствовать вас на нашем сайте!</p>
+                        <p class="main-description-second">Наша платформа предлагает лучший спорт инвентарь под любые
+                            нужды. Выберите что вам подходит и закажите.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="login-form col-md-4 p-5" th:if="${#request.userPrincipal == null}">
+                <h3 class="login-form-title">Форма авторизации</h3>
+                <form action="/login" method="POST">
+                    <div class="login-form-loginfield">
+                        <label>Логин:</label>
+                        <input type="name" name="username">
+                    </div>
+                    <div class="login-form-passfield">
+                        <label>Пароль:</label>
+                        <input type="password" name="password">
+                    </div>
+                    <div class="login-form-buttons justify-content-between d-flex m-3">
+                        <button type="submit" class=" btn btn-primary">ВХОД</button>
+                        <a href="/registration" class="login-form-registration btn btn-primary">РЕГИСТРАЦИЯ</a>
+                    </div>
+                </form>
+            </div>
+            <div class="mini-profile-info col-md-4 p-5 m-auto"
+                 th:if="${#request.userPrincipal != null && #request.isUserInRole('ROLE_USER')}">
+                <h3 class="mini-profile-info-title">Пользователь</h3>
+                <div class="mini-profile-info-username d-flex">
+                    <label>Логин:</label>
+                    <div th:text="${entity.username}">username</div>
+                </div>
+                <div class="mini-profile-info-firstname d-flex">
+                    <label>Имя:</label>
+                    <div th:text="${entity.firstname}">firstname</div>
+                </div>
+                <div class="mini-profile-info-password d-flex">
+                    <label>Фамилия:</label>
+                    <div th:text="${entity.lastname}">lastname</div>
+                </div>
+                <div class="mini-profile-info-buttons justify-content-between d-flex m-3">
+                    <a href="/user/history" class="mini-profile-info-btn btn btn-primary">История заказов</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="home-shop" th:if="${inventories}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="h-page-title">
+                    <h1>Последние товары</h1>
+                </div>
+                <div class="main-carousel">
+                    <div class="product carousel-cell carouselItem" th:each="entity:${inventories}">
+                        <img th:src="${entity.image}" alt="изображение" class="carouselImage">
+                        <h2 class="product-title" th:text="${entity.name}">Shave Knives</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var elem = document.querySelector('.main-carousel');
+        var flkty = new Flickity(elem, {
+            // options
+            cellAlign: 'center',
+            contain: true
+        });
+    </script>
+</section>
+
+
+</body>
+
+</html>

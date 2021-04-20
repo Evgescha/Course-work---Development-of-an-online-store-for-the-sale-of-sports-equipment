@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Каталог</title>
+    <div th:replace="~{commons :: head}"></div>
+</head>
+<body>
+<div th:replace="~{commons :: nav}"></div>
+
+
+<section id="menu" class="menu">
+    <div class="container d-flex">
+        <div class="menu-info col-md-10">
+            <div class="row item" th:each="entity : ${list}">
+
+                <div class="col-md-5 item-image">
+                    <img th:src="${entity.image}" alt="изображение" class="col-12">
+                </div>
+                <div class="col-md-7 item-info">
+                    <div class="item-name" th:text="'Название: '+${entity.name}"></div>
+                    <div class="item-type" th:text="'Тип: '+${entity.typeInventory.name}"></div>
+                    <div class="item-description" th:text="'Описание '+${entity.description}"></div>
+                    <div class="item-buttons"
+                         th:if="${#request.userPrincipal != null && #request.isUserInRole('ROLE_USER')}">
+                        <form action="/orderList/create" METHOD="POST">
+                            <input type="number" name="count" required>
+                            <input type="text" name="inventory_id" th:value="${entity.id}" required hidden>
+                            <button type="submit">В корзину</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-types col-md-2">
+            <div>Типы спортинвентаря</div>
+            <div class="menu-types-list">
+                <div class="menu-types-item">
+                    <a href="/inventory" class="menu-types-item-name">Показать все</a>
+                </div>
+                <div class="menu-types-item" th:each="entity : ${types}">
+                    <a th:href="'/typeInventory/id/'+${entity.id}" class="menu-types-item-name"
+                       th:text="${entity.name}">Рестораны</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+</body>
+
+</html>

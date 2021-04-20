@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Заказы</title>
+    <div th:replace="~{commons :: head}"></div>
+</head>
+
+<body>
+
+<div th:replace="~{commons :: nav}"></div>
+
+
+<section class="orders" id="orders">
+    <div class="container">
+        <div class="order-items">
+            <h3 class="text-center">Заказы пользователей</h3>
+            <div class="row item p-3" th:each="entity:${list}">
+                <div class="order-title" th:text="'Заказ с даты:'+${entity.dates}+', '+${entity.times}">Заказ c
+                    25,25,2025
+                </div>
+                <div class="order-table"
+                     th:text="'Заказал: '+${entity.creator.firstname}+' '+${entity.creator.lastname}">
+                    Пользователь
+                </div>
+                <div class="order-table" th:text="'Статус: '+${entity.status}">APPROVE</div>
+                <div class="order-buttons">
+                    <a class="btn btn-primary" th:href="'/admin/deleteOrderAdmin/'+${entity.id}">Удалить заказ</a>
+                    <a class="btn btn-primary" th:href="'/admin/aproveOrderAdmin/'+${entity.id}"
+                       th:if="${entity.status.id == 2 }">Подтвердить заказ</a>
+                </div>
+                <div class="order-food">
+                    <div class="order-food-item">
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th>Тип</th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th>Количество</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="entity1 : ${entity.orderLists}">
+                                <td th:text="${entity1.inventory.typeInventory}"></td>
+                                <td th:text="${entity1.inventory.name}"></td>
+                                <td th:text="${entity1.inventory.price}"></td>
+                                <td th:text="${entity1.count}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+
+</html>
